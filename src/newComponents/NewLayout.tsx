@@ -67,7 +67,7 @@ export function NewLayout({ children, onNavigate, currentPage = "home" }: NewLay
                                 avacado
                             </span>
                             <span className="text-[12px] font-mono text-gray-500">
-                                / 4dent
+                                / demo
                             </span>
                         </button>
                         
