@@ -230,18 +230,6 @@ export function App() {
         return (
             <>
                 {PageComponent}
-
-                {/* Toggle back to classic UI */}
-                <button
-                    type="button"
-                    onClick={() => handleSetUiVersion("classic")}
-                    className="fixed bottom-6 right-6 z-50 btn-secondary shadow-lg"
-                    style={{
-                        fontFamily: "JetBrains Mono, Monaco, monospace",
-                    }}
-                >
-                    ← Classic UI
-                </button>
             </>
         );
     }
