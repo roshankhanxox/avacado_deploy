@@ -57,7 +57,7 @@ export function NewHome({ onNavigate, mode = "converter" }: NewHomeProps) {
         <NewLayout onNavigate={onNavigate} currentPage="home">
             <div className="min-h-[calc(100vh-200px)] flex flex-col">
                 {/* Hero Section */}
-                <motion.section 
+                <motion.section
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
@@ -65,7 +65,7 @@ export function NewHome({ onNavigate, mode = "converter" }: NewHomeProps) {
                 >
                     {/* Subtle red gradient tint */}
                     <div className="absolute inset-0 bg-gradient-to-b from-coral-red/[0.03] via-transparent to-transparent -mx-8 -my-4 pointer-events-none" />
-                    
+
                     {/* Radial glow behind heading */}
                     <div
                         className="pointer-events-none absolute left-1/2 top-8 h-[300px] w-[300px] -translate-x-1/2 rounded-full md:h-[400px] md:w-[400px] lg:h-[500px] lg:w-[500px]"
@@ -75,7 +75,7 @@ export function NewHome({ onNavigate, mode = "converter" }: NewHomeProps) {
                         }}
                         aria-hidden="true"
                     />
-                    
+
                     <div className="relative max-w-5xl mx-auto">
                         <motion.h1
                             initial={{ opacity: 0, y: 20 }}
@@ -109,7 +109,7 @@ export function NewHome({ onNavigate, mode = "converter" }: NewHomeProps) {
                             <p>ZERO-KNOWLEDGE PROOFS</p>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.6 }}
@@ -127,7 +127,9 @@ export function NewHome({ onNavigate, mode = "converter" }: NewHomeProps) {
                                 onClick={handleGetStarted}
                                 className="btn-secondary text-base px-8 py-4"
                             >
-                                {isConnected && isRegistered ? "Go to Dashboard" : "Get Started"}
+                                {isConnected && isRegistered
+                                    ? "Go to Dashboard"
+                                    : "Get Started"}
                             </button>
                         </motion.div>
                     </div>

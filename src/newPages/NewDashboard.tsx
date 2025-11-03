@@ -10,6 +10,7 @@ import {
     usePublicClient,
     useWalletClient,
     useReadContract,
+    useWriteContract,
 } from "wagmi";
 import { avalancheFuji } from "wagmi/chains";
 import { motion } from "framer-motion";
@@ -141,6 +142,9 @@ export function NewDashboard({
 
     const isDecryptionKeySet = !shouldGenerateDecryptionKey;
 
+    // Contract write hook for minting tokens
+    const { writeContract, isPending: isMinting } = useWriteContract();
+
     // Redirect to registration if not registered (only once)
     useEffect(() => {
         if (!isRegistered && isConnected && !hasRedirectedRef.current) {
@@ -161,6 +165,48 @@ export function NewDashboard({
         const balance = await refetchBalance();
         console.log("Refreshed balance:", balance);
         setTimeout(() => setIsRefreshing(false), 500);
+    };
+
+    const handleMintTokens = async () => {
+        if (!address) {
+            toast.error("Please connect your wallet first");
+            return;
+        }
+
+        try {
+            // Try mint function first (if available), fallback to requestTokens
+            const amount = 100n * 10n ** BigInt(erc20Decimals || 18); // 100 tokens with proper decimals
+
+            writeContract(
+                {
+                    abi: erc20Abi,
+                    functionName: "mint",
+                    address: CONTRACTS.ERC20,
+                    args: [address, amount],
+                },
+                {
+                    onSuccess: () => {
+                        toast.success("Successfully minted tokens!", {
+                            position: "top-right",
+                            autoClose: 3000,
+                        });
+                        // Refresh balance after minting
+                        setTimeout(() => {
+                            refetchErc20Balance();
+                        }, 2000);
+                    },
+                    onError: (error: any) => {
+                        console.error("Mint error:", error);
+                        toast.error(
+                            "Failed to mint tokens. Please try again."
+                        );
+                    },
+                }
+            );
+        } catch (error) {
+            console.error("Mint error:", error);
+            toast.error("Failed to mint tokens. Please try again.");
+        }
     };
 
     if (!isConnected) {
@@ -263,6 +309,14 @@ export function NewDashboard({
                                 {/* show symbol if available */}
                             </div>
                         </div>
+                        <button
+                            type="button"
+                            onClick={handleMintTokens}
+                            disabled={isMinting}
+                            className="btn-primary text-sm w-full mt-3"
+                        >
+                            {isMinting ? "Minting..." : "Mint 100 Tokens"}
+                        </button>
                     </div>{" "}
                     <div className="frost-card p-6">
                         <span className="mono-kicker text-coral-red mb-4 block">
